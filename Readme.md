@@ -7,7 +7,7 @@ This is an app that quizzes users on any subject. The questions are on one side 
 
 ### App Walk-though
 
-<img src="http://recordit.co/OwHoPdqZtt" width=200><br>
+<img src="https://recordit.co/OwHoPdqZtt" width=200><br>
 
 `TODO://` In the User stories section below, add an `x` between the `-[ ]` like this `- [x]` for any user story you complete. (☝️ Remove this paragraph after after checking off user stories)
 
