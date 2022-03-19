@@ -17,7 +17,12 @@ class ViewController: UIViewController {
     @IBOutlet weak var BtnOptionTwo: UIButton!
     @IBOutlet weak var BtnOptionThree: UIButton!
     
+
+    
     override func viewDidLoad() {
+        print(BtnOptionOne.titleLabel!.text!)
+        print(BtnOptionTwo.titleLabel!.text!)
+        print(BtnOptionThree.titleLabel!.text!)
         card.layer.cornerRadius = 20.0
         card.layer.shadowRadius = 15.0
         card.layer.shadowOpacity = 0.2
@@ -48,19 +53,44 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    @IBAction func didTaponFlashcard(_ sender: Any) {
-        frontLabel.isHidden = true
+    override func prepare( for segue: UIStoryboardSegue, sender: Any?) {
+        let navigationController = segue.destination as! UINavigationController
+        let creationController = navigationController.topViewController as! CreationViewController
+        
+        creationController.flashcardsController = self
     }
     
+    @IBAction func didTaponFlashcard(_ sender: Any) {
+        frontLabel.isHidden = !frontLabel.isHidden
+        
+    }
+    func updateFlashcard( question: String, answer: String){
+        backLabel.text = answer
+        frontLabel.text = question
+    }
     @IBAction func didTapOptionOne(_ sender: Any) {
-        BtnOptionOne.isHidden = true
+        if BtnOptionOne.titleLabel!.text == backLabel.text{
+            frontLabel.isHidden = true
+        }
+        else{BtnOptionOne.isHidden = true}
+        print(BtnOptionOne.titleLabel!.text!)
     }
     
     @IBAction func didTapOptionTwo(_ sender: Any) {
+        if BtnOptionTwo.titleLabel!.text == backLabel.text{
+            frontLabel.isHidden = true
+        }
+        else{BtnOptionTwo.isHidden = true}
+        print(BtnOptionTwo.titleLabel!.text!)
     }
     
     @IBAction func didTapOptionThree(_ sender: Any) {
-        BtnOptionThree.isHidden = true
-    }
+        if BtnOptionThree.titleLabel!.text == backLabel.text{
+            frontLabel.isHidden = true
+        }
+        else{BtnOptionThree.isHidden = true}
+        print(BtnOptionThree.titleLabel!.text!)
 }
+}
+
 
