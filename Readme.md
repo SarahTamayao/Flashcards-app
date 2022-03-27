@@ -8,7 +8,7 @@ This is an app that quizzes users on any subject. The questions are on one side 
 ### App Walk-though
 
 
-<img src="https://i.imgur.com/b7LZPPa.gif" width=200><br>
+<img src="https://i.imgur.com/oxtLPz2.gif" width=200><br>
 
 
 ## Required
