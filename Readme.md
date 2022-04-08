@@ -1,5 +1,27 @@
 ## Flashcards app 
 
+## Lab 4
+
+### App Description
+This is an app that quizzes users on any subject. The questions are on one side of the card and there are answer options for the user to choose from. When the user chooses the answer for a right question, the answer is revealed on the other side of the question card.
+
+### App Walk-though
+
+<img src="https://i.imgur.com/iDD0UzG.gif" width=200><br>
+
+
+## Required
+- [x] User should see the app icon 
+- [x] User should see a splash screen
+- [x] User should see an flip animation when revealing the answer
+- [x] User should see a slide animation when going to the next flashcard
+- [x] User should see a slide animation when going to the previous flashcard
+- [x] Push code to GitHub
+## Optional
+- [ ] User should see a nicer flaschard with rounded corners, shadows, and animating when showing the first time
+- [ ] User should see all views properly layout when using the app on a phone of different sizes
+- [ ] Correct answer in multiple choice should be random
+
 ## Lab 3
 
 ### App Description
@@ -16,7 +38,7 @@ This is an app that quizzes users on any subject. The questions are on one side 
 - [x] User can re-open the app and see previously created flashcards
 - [x] Push code to GitHub
 ## Optional
-- [ ] User can delete a flashcard
+- [x] User can delete a flashcard
 - [ ] User can edit existing flashcard
 - [ ] User can store multiple choice questions
 

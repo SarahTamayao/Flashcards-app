@@ -19,7 +19,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var card: UIView!
     //Array to hold our flashcards
     var flashcards = [Flashcard]()
-    
+    var memoryName = "flashcards"
     //Current flashcard index
     var currentIndex = 0
     
@@ -84,9 +84,52 @@ class ViewController: UIViewController {
     
     
     @IBAction func didTaponFlashcard(_ sender: Any) {
-        frontLabel.isHidden = !frontLabel.isHidden
-        
+        flipFlashcard()
     }
+    func flipFlashcard(){
+        frontLabel.isHidden = !frontLabel.isHidden
+        UIView.transition(with: card, duration: 0.3, options: .transitionFlipFromRight, animations: {//self.frontLabel.isHidden = true
+        })
+        }
+    func animateCardOut(){
+        UIView.animate(withDuration: 0.3, animations: {self.card.transform = CGAffineTransform.identity.translatedBy(x: -300, y: 0.0)}, completion: {finished in
+        //Update labels
+        self.updateLabels()
+        //Run other animation
+        self.animateCardIn()
+        })
+    }
+    
+    func animateCardIn(){
+        //Start on the right side (don't animate this)
+        card.transform = CGAffineTransform.identity.translatedBy(x: 300, y: 0)
+        //Animate card going back to its original position
+        UIView.animate(withDuration: 0.3) {
+            self.card.transform = CGAffineTransform.identity
+        }
+    }
+    
+    func newanimateCardOut(){
+        UIView.animate(withDuration: 0.3, animations: {self.card.transform = CGAffineTransform.identity.translatedBy(x: 300, y: 0.0)}, completion: {finished in
+        //Update labels
+        self.updateLabels()
+        //Run other animation
+        self.newanimateCardIn()
+        })
+    }
+    
+    func newanimateCardIn(){
+        //Start on the right side (don't animate this)
+        card.transform = CGAffineTransform.identity.translatedBy(x: -300, y: 0)
+        //Animate card going back to its original position
+        UIView.animate(withDuration: 0.3) {
+            self.card.transform = CGAffineTransform.identity
+        }
+    }
+    
+    
+
+    
     func updateFlashcard( question: String, answer: String){
         let flashcard = Flashcard (question: question, answer: answer)
         backLabel.text = flashcard.answer
@@ -97,7 +140,7 @@ class ViewController: UIViewController {
         
         //Logging into console
         print("😎Added new flashcard")
-        print("😎 We now have \(flashcards.count) flashcards")
+        print("😎 We now have \(flashcards.count) \(memoryName)")
         
         //Update current index
         currentIndex = flashcards.count - 1
@@ -145,6 +188,10 @@ class ViewController: UIViewController {
         
         //Update buttons
         updateNextPrevButtons()
+        
+        
+        self.newanimateCardOut()
+        
     }
     
     @IBAction func didTapOnNext(_ sender: Any) {
@@ -156,6 +203,39 @@ class ViewController: UIViewController {
         
         //Update buttons
         updateNextPrevButtons()
+        
+        self.animateCardOut()
+    }
+    @IBAction func didTapOnDelete(_ sender: Any) {
+        
+        let alert = UIAlertController (title: "Delete Flashcard", message: "Are you sure you want to delete it?", preferredStyle: .actionSheet)
+        
+        let deleteAction = UIAlertAction( title: "Delete", style: .destructive) {action in
+            print(self.flashcards)
+            self.deleteCurrentFlashcard()
+            print(self.flashcards)
+        }
+        alert.addAction(deleteAction)
+        let cancelAction = UIAlertAction(title:"Cancel", style: .cancel)
+        alert.addAction(cancelAction)
+        present(alert, animated: true)
+    }
+    func deleteCurrentFlashcard(){
+        //Delete current
+        flashcards.remove(at:currentIndex)
+        currentIndex = currentIndex - 1
+        //Special case: Check if last card was deleted
+        if currentIndex > flashcards.count - 1 {
+            currentIndex = flashcards.count - 1
+        }
+        print(UserDefaults.standard.array(forKey: memoryName))
+        //Update buttons
+        updateNextPrevButtons()
+        //Saving flashcards
+        UserDefaults.standard.removeObject(forKey: memoryName)
+        self.saveAllFlashcardsToDisk()
+        readSavedFlashcards()
+        self.updateLabels()
     }
     
     func updateNextPrevButtons() {
@@ -188,7 +268,7 @@ class ViewController: UIViewController {
         
         
         //Save array on disk using UserDefaults
-        UserDefaults.standard.set(dictionaryArray, forKey: "flashcards")
+        UserDefaults.standard.set(dictionaryArray, forKey: memoryName)
         
         //Log it
         print("🎉Flashcards saved to UserDefaults")
@@ -196,7 +276,7 @@ class ViewController: UIViewController {
     
     func readSavedFlashcards(){
         //Read dictionary array from disk (if any)
-        if let dictionaryArray = UserDefaults.standard.array(forKey:"flashcards") as? [[String: String]] {
+        if let dictionaryArray = UserDefaults.standard.array(forKey: memoryName) as? [[String: String]] {
         //In here we know for sure we have a dictionary array
         let savedCards = dictionaryArray.map { dictionary -> Flashcard in return Flashcard(question:  dictionary["question"]!, answer: dictionary["answer"]!)
         }

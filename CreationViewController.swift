@@ -25,9 +25,15 @@ class CreationViewController: UIViewController {
     }
     @IBAction func didTapOnDone(_ sender: Any) {
         
+        //Get the text in the question field
         let questionText = questionTextField.text
         
+        //Get the answer in the answer field
         let answerText = answerTextField.text
+        
+        //Check if empty
+       
+        
         
         flashcardsController.updateFlashcard(question: questionText!, answer: answerText!)
         
